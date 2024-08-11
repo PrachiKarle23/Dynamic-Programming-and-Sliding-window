@@ -1,0 +1,55 @@
+//Recursion
+
+class Solution {
+public:
+    bool solve(vector<int>& nums,int i,int n)
+    {
+        if(i>=n-1 || nums[i]>=n){
+            return true;
+        }
+        int k=1;
+        bool flag=false;
+        while(k<=nums[i])
+        {
+            if(flag==true)
+            {
+                break;
+            }
+            flag=solve(nums,i+k,n);
+            k++;
+        }
+        return flag;
+    } 
+    bool canJump(vector<int>& nums) {
+        int n=nums.size();
+        return solve(nums,0,n);
+    }
+};
+
+//topdown approach -DP
+class Solution {
+public:
+    bool solve(vector<int>& nums,int i,int n,vector<bool>& dp)
+    {
+        if(i>=n-1 || nums[i]>=n){
+            return true;
+        }
+       
+        int k=1;
+        while(k<=nums[i])
+        {
+            if(dp[n]==true)
+            {
+                break;
+            }
+            dp[n]=solve(nums,i+k,n,dp);
+            k++;
+        }
+        return dp[n];
+    } 
+    bool canJump(vector<int>& nums) {
+        int n=nums.size();
+        vector<bool>dp(n+1,false);
+        return solve(nums,0,n,dp);
+    }
+};
