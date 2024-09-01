@@ -1,0 +1,62 @@
+//Recursion
+class Solution {
+  public:
+    int solve(vector<vector<int>>& mat,int i,int j,int n,int m,int &maxi)
+    {
+        if(i>=n || j>=m)
+        {
+            return 0;
+        }
+        int down=solve(mat,i+1,j,n,m,maxi);
+        int right=solve(mat,i,j+1,n,m,maxi);
+        int dig=solve(mat,i+1,j+1,n,m,maxi);
+        if(mat[i][j]==1)
+        {
+            int ans=min(right,min(down,dig))+1;
+            maxi=max(ans,maxi);
+            return ans;
+        }
+        else{
+            return 0;
+        }
+    }
+    int maxSquare(int n, int m, vector<vector<int>> mat) {
+        int maxi=0;
+        int a=solve(mat,0,0,n,m,maxi);
+        return maxi;
+    }
+};
+
+//DP
+class Solution {
+  public:
+    int solve(vector<vector<int>>& mat,int i,int j,int n,int m,int &maxi,
+    vector<vector<int>>& dp)
+    {
+        if(i>=n || j>=m)
+        {
+            return 0;
+        }
+        if(dp[i][j]!=-1){
+            return dp[i][j];
+        }
+        int down=solve(mat,i+1,j,n,m,maxi,dp);
+        int right=solve(mat,i,j+1,n,m,maxi,dp);
+        int dig=solve(mat,i+1,j+1,n,m,maxi,dp);
+        if(mat[i][j]==1)
+        {
+            dp[i][j]=min(right,min(down,dig))+1;
+            maxi=max(dp[i][j],maxi);
+            return dp[i][j];
+        }
+        else{
+            return 0;
+        }
+    }
+    int maxSquare(int n, int m, vector<vector<int>> mat) {
+        int maxi=0;
+        vector<vector<int>>dp(n,vector<int>(m,-1));
+        int a=solve(mat,0,0,n,m,maxi,dp);
+        return maxi;
+    }
+};
