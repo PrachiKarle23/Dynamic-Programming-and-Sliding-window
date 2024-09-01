@@ -50,7 +50,7 @@ class Solution {
             return dp[i][j];
         }
         else{
-            return 0;
+            return dp[i][j]=0;
         }
     }
     int maxSquare(int n, int m, vector<vector<int>> mat) {
