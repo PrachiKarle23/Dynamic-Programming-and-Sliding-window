@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int solve1(int prev,int curr,vector<int>& nums)
+    {
+        if(curr==nums.size()){
+            return 0;
+        }
+        int first=0;
+        if(prev==-1 || nums[prev]<nums[curr]){
+            first=1+solve1(curr,curr+1,nums);
+        }
+        int sec=solve1(prev,curr+1,nums);
+        return max(first,sec);
+    }
+    int solve(int prev,int curr,vector<int>& nums,vector<vector<int>>& dp)
+    {
+        if(curr==nums.size()){
+            return 0;
+        }
+        if(prev!=-1 && dp[prev][curr]!=-1){
+            return dp[prev][curr];
+        }
+        int first=0;
+        if(prev==-1 || nums[prev]<nums[curr]){
+            first=1+solve(curr,curr+1,nums,dp);
+        }
+        int sec=solve(prev,curr+1,nums,dp);
+        if(prev!=-1)
+           return dp[prev][curr]=max(first,sec);
+        else
+           return max(first,sec);
+    }
+    int lengthOfLIS(vector<int>& nums) {
+        int n=nums.size();
+        vector<vector<int>>dp(n,vector<int>(n,-1));
+        return solve(-1,0,nums,dp);
+    }
+};
