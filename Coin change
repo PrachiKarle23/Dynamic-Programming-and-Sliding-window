@@ -1,0 +1,91 @@
+//recursion 1
+class Solution {
+public:
+    void solve(vector<int>& coins, int amount, vector<int>& ans,int sum,int n,int &res){
+       
+       if(n<0){
+        if(sum==amount){
+           if(ans.size()<res){
+            res=ans.size();
+           }
+        }
+        return;
+       }
+       if(sum>amount){
+          return;
+       }
+       ans.push_back(coins[n]);
+       sum+=coins[n];
+       solve(coins,amount,ans,sum,n,res);
+       ans.pop_back();
+       sum-=coins[n];
+
+       solve(coins,amount,ans,sum,n-1,res);
+   }
+    int coinChange(vector<int>& coins, int amount) {
+        if(amount==0){
+            return 0;
+        }
+        vector<int>ans;
+        int res=INT_MAX;
+        solve(coins,amount,ans,0,coins.size()-1,res);
+        if(res!=INT_MAX){
+            return res;
+        }
+        return -1;
+    }
+};
+
+//Recursion 2
+class Solution {
+public:
+    int solve(vector<int>& coins, int i,int amount){
+        if(i>=coins.size() || amount<=0){
+            return amount==0 ? 0:INT_MAX-1;
+        }
+        int res=-1;
+        if(coins[i]>amount){
+            int doNotTake=0+solve(coins,i+1,amount);
+            res=doNotTake;
+        }
+        else{
+            int take= 1+solve(coins,i+0,amount-coins[i]);
+            int NotTake=0+solve(coins,i+1,amount-0);
+            res=min(take,NotTake);
+        }
+        return res;
+    }
+    int coinChange(vector<int>& coins, int amount) {
+        int res=solve(coins,0,amount);
+        return (res==INT_MAX-1)?-1:res;
+    }
+};
+
+//2d DP
+class Solution {
+public:
+    int solve(vector<int>& coins, int i,int amount,vector<vector<int>>& dp){
+        if(i>=coins.size() || amount<=0){
+            return amount==0 ? 0:INT_MAX-1;
+        }
+        if(dp[i][amount]!=-1){
+            return dp[i][amount];
+        }
+        if(coins[i]>amount){
+            int doNotTake=0+solve(coins,i+1,amount,dp);
+            dp[i][amount]=doNotTake;
+        }
+        else{
+            int take= 1+solve(coins,i,amount-coins[i],dp);
+            int NotTake=0+solve(coins,i+1,amount,dp);
+            dp[i][amount]=min(take,NotTake);
+        }
+       
+        return dp[i][amount];
+    }
+    int coinChange(vector<int>& coins, int amount) {
+        vector<vector<int>>dp(coins.size(),vector<int>(amount+1,-1));
+        int res=solve(coins,0,amount,dp);
+        return (res==INT_MAX-1)?-1:res;
+    }
+};
