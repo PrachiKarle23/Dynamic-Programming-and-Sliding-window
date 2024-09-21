@@ -1,3 +1,4 @@
+//Recursion
 class Solution {
 public:
     int rob(TreeNode* root) {
@@ -17,5 +18,34 @@ public:
 
         return max(Rob,notRob);
 
+    }
+};
+
+//DP
+class Solution {
+public:
+    unordered_map<TreeNode*,int>mp;
+    int rob(TreeNode* root) {
+        if(root==NULL){
+            return 0;
+        }
+        if(mp.find(root)!=mp.end())
+        {
+            return mp[root];
+        }
+        
+        int val=0;
+        if(root->left){
+           val+=rob(root->left->left)+rob(root->left->right); 
+        }
+        if(root->right){
+            val+=rob(root->right->left)+rob(root->right->right);
+        }
+
+        int notRob=rob(root->left)+rob(root->right);
+        int Rob=val+root->val;
+
+        mp[root]= max(Rob,notRob);
+        return mp[root];
     }
 };
