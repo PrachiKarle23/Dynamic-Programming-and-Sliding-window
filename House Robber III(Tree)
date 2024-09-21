@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int rob(TreeNode* root) {
+        if(root==NULL){
+            return 0;
+        }
+        int val=0;
+        if(root->left!=NULL){
+            val+=rob(root->left->left)+rob(root->left->right);
+        }
+        if(root->right!=NULL){
+            val+=rob(root->right->left)+rob(root->right->right);
+        }
+
+        int notRob=rob(root->left)+rob(root->right);
+        int Rob=val+root->val;
+
+        return max(Rob,notRob);
+
+    }
+};
