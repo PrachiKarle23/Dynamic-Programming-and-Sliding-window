@@ -38,8 +38,7 @@ public:
 //DP Top Down
 class Solution {
 public:
-    unordered_map<int,int>mp;
-    int solve(int amount,vector<int>& coins, int n,int sum)
+    int solve(int amount,vector<int>& coins, int n,int sum, vector<vector<int>>& dp)
     {
         if(n<0){
             if(sum==amount){
@@ -51,29 +50,29 @@ public:
         {
             return 0;
         }
-        if(mp.find(sum)!=mp.end()){
-            mp[sum];
+
+        if(dp[n][sum]!=-1){
+            return dp[n][sum];
         }
+
         int take=0,notTake=0;
         if(coins[n]<amount){
-           sum+=coins[n];
-           take=take+solve(amount,coins,n,sum);
-           sum-=coins[n];
-           notTake=notTake+solve(amount,coins,n-1,sum);
+           take=take+solve(amount,coins,n,sum+coins[n],dp);
+           notTake=notTake+solve(amount,coins,n-1,sum+0,dp);
         }
         else if(coins[n]==amount){
-           take=take+1+solve(amount,coins,n-1,sum);
+           take=take+1+solve(amount,coins,n-1,sum+0,dp);
         }
         else{
-           notTake=notTake+ solve(amount,coins,n-1,sum);
+           notTake=notTake+ solve(amount,coins,n-1,sum+0,dp);
         }
-        mp[sum]=take+notTake;
-        return mp[sum];
+
+        dp[n][sum]= take+notTake;
+        return dp[n][sum];
     }
     int change(int amount, vector<int>& coins) {
         int n=coins.size();
-        return solve(amount,coins,n-1,0);
+        vector<vector<int>>dp(n+1,vector<int>(amount+1,-1));
+        return solve(amount,coins,n-1,0,dp);
     }
 };
-
-//Dp Tabulation
