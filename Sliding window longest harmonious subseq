@@ -1,0 +1,29 @@
+class Solution {
+public:
+    void solve(vector<int>& nums,int &ans,int i,vector<int>a)
+    {
+        if(i==nums.size()){
+            if(a.size()!=0){
+                int maxi=*max_element(a.begin(),a.end());
+                int mini=*min_element(a.begin(),a.end());
+                if(maxi-mini==1){
+                    if(a.size()>ans){
+                      ans=a.size();
+                    }
+                }
+            }
+            return;
+        }
+
+        solve(nums,ans,i+1,a);
+
+        a.push_back(nums[i]);
+        solve(nums,ans,i+1,a);
+    }
+    int findLHS(vector<int>& nums) {
+        int ans=0;
+        vector<int>a;
+        solve(nums,ans,0,a);
+        return ans;
+    }
+};
