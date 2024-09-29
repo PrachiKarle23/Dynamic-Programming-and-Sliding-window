@@ -1,0 +1,31 @@
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        int n=p.size();
+        int m=s.size();
+        vector<int>ans;
+        sort(p.begin(),p.end());
+        int i=0,j=0;
+        string ps="";
+        for(;i<m;i++){
+            if(ps.length()==n){
+                string sp=ps;
+                sort(sp.begin(),sp.end());
+                if(sp==p){
+                  ans.push_back(j);
+                }
+                j++;
+                ps.erase(ps.begin());
+            }
+            ps+=s[i];
+        }
+        if(ps.length()==n){
+             string sp=ps;
+             sort(sp.begin(),sp.end());
+             if(sp==p){
+                ans.push_back(j);
+             }
+        }
+        return ans;
+    }
+};
