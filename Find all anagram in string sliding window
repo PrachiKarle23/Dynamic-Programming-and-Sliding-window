@@ -7,8 +7,8 @@ public:
         sort(p.begin(),p.end());
         int i=0,j=0;
         string ps="";
-        for(;i<m;i++){
-            if(ps.length()==n){
+        for(;i<=m;i++){
+            if(i>=n){
                 string sp=ps;
                 sort(sp.begin(),sp.end());
                 if(sp==p){
@@ -17,14 +17,9 @@ public:
                 j++;
                 ps.erase(ps.begin());
             }
-            ps+=s[i];
-        }
-        if(ps.length()==n){
-             string sp=ps;
-             sort(sp.begin(),sp.end());
-             if(sp==p){
-                ans.push_back(j);
-             }
+            if(i<m){
+               ps+=s[i];
+            }
         }
         return ans;
     }
