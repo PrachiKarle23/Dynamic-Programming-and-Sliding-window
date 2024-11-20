@@ -24,3 +24,35 @@ public:
         return ans;
     }
 };
+
+
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        vector<int>ans;
+        sort(p.begin(),p.end());
+
+        int i=0,j=0,n=s.length(),m=p.length(),cnt=0;
+
+        string a="";
+        for(;j<n;j++)
+        {
+            if(a.length()==m)
+            {
+               sort(a.begin(),a.end());
+               if(p==a){
+                  ans.push_back(i);
+               }
+               a="";
+               i++;
+               j=i;
+            }
+            a+=s[j];
+        }
+        sort(a.begin(),a.end());
+        if(p==a){
+            ans.push_back(i);
+        }
+        return ans;
+    }
+};
