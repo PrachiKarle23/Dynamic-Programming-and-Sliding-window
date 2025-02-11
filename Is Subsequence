@@ -1,0 +1,23 @@
+class Solution {
+public:
+
+    bool solve(string s,string t,int i,int j,int n,int m)
+    {
+        if(i>=n){
+            return true;
+        }
+        if(j>=m && i!=n){
+            return false;
+        }
+
+        if(s[i]==t[j]){
+            i++;
+        }
+        return solve(s,t,i,j+1,n,m);
+    }
+    bool isSubsequence(string s, string t) {
+        int i=0,j=0,n=s.length(),m=t.length();
+
+        return solve(s,t,i,j,n,m);
+    }
+};
