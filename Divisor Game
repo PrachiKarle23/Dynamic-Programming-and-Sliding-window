@@ -1,26 +1,29 @@
 class Solution {
 public:
-    void solve(int n,int turn,bool &flag)
+    bool solve(int n,int turn)
     {
-       if(n==1){
-         if(turn==1){
-            flag= false;
-         }
-         else{
-            flag= true;
-         }
-         return;
-       }
-       if(turn==1){
-           solve(n-1,0,flag);
-       }
-       else{
-           solve(n-1,1,flag);
-       }
+        if(n==1){
+            if(turn==1){
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
+        
+        bool flag1,flag2;
+        if(turn==1){
+            flag1=solve(n-1,0);
+        }
+        else{
+            flag2=solve(n-1,1);
+        }
+        return flag1 || flag2;
     }
     bool divisorGame(int n) {
-        bool flag=true;
-        solve(n,1,flag);
-        return flag;
+        return solve(n,1);
     }
 };
+
+
+
