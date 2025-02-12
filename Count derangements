@@ -1,50 +1,71 @@
 //Recursion
 #define MOD 1000000007
-#include<vector>
-long long int solve(int n)
-{
-    if(n == 1)
+class Solution {
+  public:
+    int solve(int n)
     {
-        return 0;
+        if(n<=2){
+            return n-1;
+        }
+        
+        return (n-1) % MOD * ((solve(n-1)%MOD) + ( solve(n-2) %MOD ));
     }
-    if(n == 2)
-    {
-        return 1;
+    int countDer(int n) {
+        return solve(n);
     }
-    int ans=(((n - 1) % MOD) *
-    ((solve(n - 1) % MOD) + (solve(n - 2) % MOD)) % MOD);
-    // int ans=(n-1)* (solve(n-1)+solve(n-2))
-    return ans;
-}
-long long int countDerangements(int n) {
+};
 
-    return solve(n); 
-}
 
-//DP
+//Top Down
 #define MOD 1000000007
-#include<vector>
-long long int solve(int n, vector<int>& dp)
-{
-    if(n == 1)
+class Solution {
+  public:
+    int solve(int n,vector<int>& dp)
     {
-        return 0;
-    }
-    if(n == 2)
-    {
-        return 1;
-    }
-    if(dp[n]!=-1)
-    {
+        if(n<=2){
+            return n-1;
+        }
+        if(dp[n]!=-1){
+            return dp[n];
+        }
+        
+        
+        dp[n]= ((n-1) % MOD) * ((solve(n-1,dp)%MOD) + ( solve(n-2,dp) %MOD ));
         return dp[n];
     }
-    dp[n]=(((n - 1) % MOD) *
-    ((solve(n - 1,dp) % MOD) + (solve(n - 2,dp) % MOD)) % MOD);
-    // int ans=(n-1)* (solve(n-1)+solve(n-2))
-    return dp[n];
-}
-long long int countDerangements(int n) {
-    vector<int>dp(n+1,-1);
-    return solve(n,dp); 
-}
+    int countDer(int n) {
+        vector<int>dp(n+1,-1);
+        return solve(n,dp);
+    }
+};
 
+
+Bottom up
+#define MOD 1000000007
+class Solution {
+  public:
+    int solve(int n)
+    {
+        vector<int>dp(n+1,-1);
+        dp[0]=0;
+        dp[1]=0;
+        dp[2]=1;
+        
+        if(dp[n]!=-1){
+            return dp[n];
+        }
+        
+        for(int i=3;i<=n;i++)
+        {
+           dp[i]= ((i-1) % MOD) * ( (dp[i-1] % MOD) + ( dp[i-2] % MOD ) ); 
+        } 
+        
+        return dp[n];
+    }
+    int countDer(int n) {
+        if(n<=2){
+            return n-1;
+        }
+        return solve(n);
+    }
+};
