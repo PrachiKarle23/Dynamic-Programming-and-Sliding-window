@@ -1,0 +1,36 @@
+class Solution {
+public:
+    
+//Top down dp
+    int solve(vector<int>& nums,int target,vector<int>& dp)
+    {
+        if(target<0){
+            return 0;
+        }
+        
+       if(target==0){
+         return 1;
+       }
+       if(dp[target]!=-1){
+        return dp[target];
+       }
+       
+        int take=0;
+        for(int j=0;j<nums.size();j++)
+        {
+           take+=solve(nums,target-nums[j],dp);
+        }
+
+        dp[target]=take;
+        return dp[target];
+    }
+    int combinationSum4(vector<int>& nums, int target) {
+        vector<int>dp(target+1,-1);
+        
+        int res= solve(nums, target,dp);
+       
+        return res;
+    }
+};
+
+
